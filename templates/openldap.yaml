@@ -31,15 +31,24 @@ spec:
       labels:
         app: {{.Release.Name}}
     spec:
+      initContainers:
+        - name: init-copy
+          image: busybox
+          command: ['sh','-c','cp /config-map/* /config-storage; ls -lrt /config-storage']
+          volumeMounts:
+          - name: {{.Release.Name}}-seedusers
+            mountPath: /config-map
+          - name: config-storage
+            mountPath: /config-storage
       containers:
         - name: {{.Release.Name}}
           image: osixia/openldap:1.1.10
           args: ["--loglevel", "debug"]
           volumeMounts:
+            - name: config-storage
+              mountPath: /container/service/slapd/assets/config/bootstrap/ldif/custom
             - name: ldap-certs
               mountPath: /container/service/slapd/assets/certs
-            - name: {{.Release.Name}}-seedusers
-              mountPath: /container/service/slapd/assets/config/bootstrap/ldif/custom
           ports:
             - containerPort: 389
             - containerPort: 636
@@ -55,6 +64,8 @@ spec:
             - name: LDAP_REMOVE_CONFIG_AFTER_SETUP
               value: "false"
       volumes:
+        - name: config-storage
+          emptyDir: {}
         - name: ldap-certs
           hostPath:
             path: "/data/ldap/certs"
