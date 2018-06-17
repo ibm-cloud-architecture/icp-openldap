@@ -4,7 +4,7 @@ Installs OpenLDAP and phpLDAPadmin with a small number of initial users for the 
 
 
 ## Installation
-To install the chart, you'll need the [helm cli](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/app_center/create_helm_cli.html?view=kc) and the [IBM Cloud Private CLI](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/install_cli.html?view=kc)
+To install the chart, you'll need the [helm cli](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/app_center/create_helm_cli.html?view=kc) and the [IBM Cloud Private CLI](https://www.ibm.com/support/knowledgecenter/SSBS6K_2.1.0/manage_cluster/install_cli.html?view=kc). Note: the IBM Cloud Private CLI version level must match the version level that is downloadable via your ICP console, under ***Menu > Command Line Tools > Cloud Private CLI***.
 
 1. Get the source code of the helm chart
    `git clone https://github.com/ibm-cloud-architecture/icp-openldap.git`
@@ -17,9 +17,9 @@ To install the chart, you'll need the [helm cli](https://www.ibm.com/support/kno
    `bx pr load-helm-chart --archive <helm_chart_archive> [--clustername <cluster_CA_domain>]`
    Where helm_chart_archive is the name of your compressed Helm chart file and <cluster_CA_domain> is the certificate authority (CA) domain.
 5. Update the package repository by using the IBM® Cloud Private cluster management console.
-   1. From the IBM® Cloud Private management console, click ***Menu > Admin > Repositories***.
+   1. From the IBM® Cloud Private management console, click ***Menu > Manage > Helm Repositories***.
    2. Click Sync Repositories.
-   3. Click ***Menu > Catalog*** The new Helm charts load into the Catalog, and you can install them into your cluster.
+   3. In the upper right hand corner of the screen click ***Catalog*** The new Helm charts load into the Catalog, and you can install them into your cluster.
 
 ## Assets
 
@@ -80,14 +80,11 @@ Detailed information about LDAP support in ICP avilable on the [IBM KnowledgeCen
 After the chart is deployed, follow these steps to setup LDAP authentication
  
  1. From the helm release page take note of the OpenLDAP cluster ip and port for your deployment
- 2. Navigate to ***ICP > Security > LDAP*** connection and insert the following details
+ 2. Navigate to ***Manage > Authentication*** and insert the following details
     #### LDAP Connection
     - Name: `ldap`
     - Type: `Custom`
-    - ID: `openLDAP`
-    - Realm: `openLDAPRealm`
-    - Server host: `<cluster-ip>`
-    - Port: `389`
+    - URL: `ldap://<cluster-ip>:389`
     
     #### LDAP authentication
     - Base DN: `dc=local,dc=io` (default value, adjust as needed)
@@ -103,9 +100,9 @@ After the chart is deployed, follow these steps to setup LDAP authentication
 
     Click ***Save***
     
- 3. Import users by navigating to ***ICP > Security > Users > Import Group***
-    - Common Name(CN): `cn=icpusers` (default value, adjust as needed)
-    - Organizational Unit(OU): `ou=groups` 
+ 3. Add users or groups to teams by navigating to ***Manage > Teams***
+    - Click ***Create team***
+    - Search group or user names to add, and select appropriate roles for each
     
 
 ## Credit
