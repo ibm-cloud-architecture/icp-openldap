@@ -42,7 +42,7 @@ spec:
             mountPath: /config-storage
       containers:
         - name: {{.Release.Name}}
-          image: osixia/openldap:1.1.10
+          image: {{.Values.OpenLdap.Image}}:{{.Values.OpenLdap.ImageTag}}
           args: ["--loglevel", "debug"]
           volumeMounts:
             - name: config-storage
