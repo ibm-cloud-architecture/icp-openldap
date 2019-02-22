@@ -33,7 +33,7 @@ spec:
     spec:
       initContainers:
         - name: init-copy
-          image: busybox
+          image: {{.Values.OpenLdap.InitImage}}:{{.Values.OpenLdap.InitImageTag}}
           command: ['sh','-c','cp /config-map/* /config-storage; ls -lrt /config-storage']
           volumeMounts:
           - name: {{.Release.Name}}-seedusers

@@ -4,6 +4,10 @@ OpenLdap:
   ImagePullPolicy: "Always"
   Component: "openldap"
 
+  InitImage: "docker.io/busybox"
+  InitImageTag: "1.30.1"
+  InitImagePullPolicy: "Always"
+
   Replicas: 1
 
   Cpu: "512m"
