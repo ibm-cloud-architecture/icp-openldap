@@ -34,6 +34,7 @@ spec:
       initContainers:
         - name: init-copy
           image: {{.Values.OpenLdap.InitImage}}:{{.Values.OpenLdap.InitImageTag}}
+          imagePullPolicy: {{.Values.OpenLdap.InitImagePullPolicy}}
           command: ['sh','-c','cp /config-map/* /config-storage; ls -lrt /config-storage']
           volumeMounts:
           - name: {{.Release.Name}}-seedusers
@@ -43,6 +44,7 @@ spec:
       containers:
         - name: {{.Release.Name}}
           image: {{.Values.OpenLdap.Image}}:{{.Values.OpenLdap.ImageTag}}
+          imagePullPolicy: {{.Values.OpenLdap.ImagePullPolicy}}
           args: ["--loglevel", "debug"]
           volumeMounts:
             - name: config-storage
