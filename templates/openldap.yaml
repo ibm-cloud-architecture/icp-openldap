@@ -10,26 +10,26 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{.Release.Name}}
-  name: {{.Release.Name}}
+    app: {{.Release.Name}}-openldap
+  name: {{.Release.Name}}-openldap
 spec:
   ports:
     - port: 389
   selector:
-    app: {{.Release.Name}}
+    app: {{.Release.Name}}-openldap
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{.Release.Name}}
+  name: {{.Release.Name}}-openldap
   labels:
-    app: {{.Release.Name}}
+    app: {{.Release.Name}}-openldap
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: {{.Release.Name}}
+        app: {{.Release.Name}}-openldap
     spec:
       initContainers:
         - name: init-copy
@@ -42,7 +42,7 @@ spec:
           - name: config-storage
             mountPath: /config-storage
       containers:
-        - name: {{.Release.Name}}
+        - name: {{.Release.Name}}-openldap
           image: {{.Values.OpenLdap.Image}}:{{.Values.OpenLdap.ImageTag}}
           imagePullPolicy: {{.Values.OpenLdap.ImagePullPolicy}}
           args: ["--loglevel", "debug"]

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{.Release.Name}}-admin
+  name: {{.Release.Name}}-ldap-admin
 spec:
 {{- if .Values.PhpLdapAdmin.NodePort }}
   type: NodePort
@@ -13,21 +13,21 @@ spec:
     nodePort: 31080
 {{- end }}
   selector:
-    app: {{.Release.Name}}-admin
+    app: {{.Release.Name}}-ldap-admin
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{.Release.Name}}-admin
+  name: {{.Release.Name}}-ldap-admin
 spec:
   replicas: {{.Values.OpenLdap.Replicas}}
   template:
     metadata:
       labels:
-        app: {{.Release.Name}}-admin
+        app: {{.Release.Name}}-ldap-admin
     spec:
       containers:
-      - name: {{.Release.Name}}-admin
+      - name: {{.Release.Name}}-ldap-admin
         image: {{.Values.PhpLdapAdmin.Image}}:{{.Values.PhpLdapAdmin.ImageTag}}
         imagePullPolicy: {{.Values.PhpLdapAdmin.ImagePullPolicy}}
         ports:
