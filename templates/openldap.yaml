@@ -18,7 +18,7 @@ spec:
   selector:
     app: {{.Release.Name}}
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{.Release.Name}}
@@ -26,6 +26,9 @@ metadata:
     app: {{.Release.Name}}
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: {{.Release.Name}}
   template:
     metadata:
       labels:
@@ -69,8 +72,7 @@ spec:
         - name: config-storage
           emptyDir: {}
         - name: ldap-certs
-          hostPath:
-            path: "/data/ldap/certs"
+          emptyDir: {}
         - name: {{.Release.Name}}-seedusers
           configMap:
             name: {{.Release.Name}}-seedusers

@@ -15,12 +15,15 @@ spec:
   selector:
     app: {{.Release.Name}}-admin
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{.Release.Name}}-admin
 spec:
   replicas: {{.Values.OpenLdap.Replicas}}
+  selector:
+    matchLabels:
+      app: {{.Release.Name}}-admin
   template:
     metadata:
       labels:
